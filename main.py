@@ -192,7 +192,11 @@ def excel_to_ansys_fixed(input_file, output_file):
                 pa_18_19 = ET.SubElement(pr6, 'ParameterValue', parameter=pid, format='float')
                 ET.SubElement(pa_18_19, 'Data').text = str(val)
                 ET.SubElement(pa_18_19, 'Qualifier', name='Variable Type').text = 'Dependent' if col == "pa18" else 'Independent'
-            pa_set.update(('pa18', 'pa19'))
+            pa6 = ET.SubElement(pr6, 'ParameterValue', parameter='pa6', format='float')
+            temp_val = row.get('Temperature')
+            ET.SubElement(pa6, 'Data').text = '7.88860905221012e-31' 
+            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = 'Independent'
+            pa_set.update(('pa18', 'pa19', 'pa6'))
             pr_set.add('pr6')
 
     metadata = ET.SubElement(matml, 'Metadata')
