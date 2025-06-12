@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<EngineeringData version="23.2.0.230" versiondate="06/12/2025 08:17:58 AM">
+<EngineeringData version="23.2.0.230" versiondate="06/12/2025 11:57:29 AM">
   <Notes />
   <Materials>
     <MatML_Doc>
@@ -9,20 +9,19 @@
           <PropertyData property="pr0">
             <Data format="string">-</Data>
             <ParameterValue parameter="pa0" format="float">
-              <Data>128</Data>
+              <Data>255</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa1" format="float">
-              <Data>0</Data>
+              <Data>102</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa2" format="float">
-              <Data>0</Data>
+              <Data>204</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa3" format="string">
               <Data>Appearance</Data>
-              <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
           </PropertyData>
           <PropertyData property="pr1">
@@ -62,7 +61,7 @@
               <Qualifier name="ExtrapolationType">Projection to the Bounding Box</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa7" format="float">
-              <Data>3000000000.0</Data>
+              <Data>3000000.0</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa8" format="float">
@@ -103,6 +102,39 @@
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
           </PropertyData>
+          <PropertyData property="pr5">
+            <Data format="string">-</Data>
+            <Qualifier name="Definition">Bilinear</Qualifier>
+            <Qualifier name="Derive from">Coefficients and Exponents</Qualifier>
+            <ParameterValue parameter="pa14" format="float">
+              <Data>8.1884e+33</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa15" format="float">
+              <Data>3.4247</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa16" format="float">
+              <Data>8.1884e+33</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa17" format="float">
+              <Data>3.4247</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+          </PropertyData>
+          <PropertyData property="pr6">
+            <Data format="string">-</Data>
+            <Qualifier name="Definition">Multilinear</Qualifier>
+            <ParameterValue parameter="pa18" format="float">
+              <Data>200000000.0,400000000.0</Data>
+              <Qualifier name="Variable Type">Independent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa19" format="float">
+              <Data>0.0,0.2</Data>
+              <Qualifier name="Variable Type">Independent</Qualifier>
+            </ParameterValue>
+          </PropertyData>
         </BulkDetails>
       </Material>
       <Material>
@@ -111,20 +143,19 @@
           <PropertyData property="pr0">
             <Data format="string">-</Data>
             <ParameterValue parameter="pa0" format="float">
-              <Data>255</Data>
+              <Data>194</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa1" format="float">
-              <Data>215</Data>
+              <Data>201</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa2" format="float">
-              <Data>0</Data>
+              <Data>214</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa3" format="string">
               <Data>Appearance</Data>
-              <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
           </PropertyData>
           <PropertyData property="pr1">
@@ -138,7 +169,7 @@
               <Qualifier name="ExtrapolationType">Projection to the Bounding Box</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa5" format="float">
-              <Data>8.9,9.0</Data>
+              <Data>0.0089,0.009</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa6" format="float">
@@ -164,7 +195,7 @@
               <Qualifier name="ExtrapolationType">Projection to the Bounding Box</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa7" format="float">
-              <Data>117130000000.0</Data>
+              <Data>117000000.0</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa8" format="float">
@@ -186,7 +217,7 @@
             <Qualifier name="Definition">Instantaneous</Qualifier>
             <Qualifier name="Behavior">Isotropic</Qualifier>
             <ParameterValue parameter="pa11" format="float">
-              <Data>0.000038,0.000039</Data>
+              <Data>3.8e-05,3.9e-05</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa6" format="float">
@@ -203,6 +234,39 @@
             <ParameterValue parameter="pa13" format="float">
               <Data>7.88860905221012e-31</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+          </PropertyData>
+          <PropertyData property="pr5">
+            <Data format="string">-</Data>
+            <Qualifier name="Definition">Bilinear</Qualifier>
+            <Qualifier name="Derive from">Coefficients and Exponents</Qualifier>
+            <ParameterValue parameter="pa14" format="float">
+              <Data>1.11884e+34</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa15" format="float">
+              <Data>5.3</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa16" format="float">
+              <Data>1.11884e+34</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa17" format="float">
+              <Data>5.3</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+          </PropertyData>
+          <PropertyData property="pr6">
+            <Data format="string">-</Data>
+            <Qualifier name="Definition">Multilinear</Qualifier>
+            <ParameterValue parameter="pa18" format="float">
+              <Data>256000000000.0,275000000000.0,290000000000.0</Data>
+              <Qualifier name="Variable Type">Independent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa19" format="float">
+              <Data>0.0,0.01,0.03</Data>
+              <Qualifier name="Variable Type">Independent</Qualifier>
             </ParameterValue>
           </PropertyData>
         </BulkDetails>
@@ -232,12 +296,47 @@
           <Name>Constant Structural Damping Coefficient</Name>
           <Unitless />
         </ParameterDetails>
+        <ParameterDetails id="pa14">
+          <Name>First Fatigue Strength Coefficient, A</Name>
+          <Unitless />
+        </ParameterDetails>
+        <ParameterDetails id="pa15">
+          <Name>First Fatigue Strength Exponent, m</Name>
+          <Unitless />
+        </ParameterDetails>
+        <ParameterDetails id="pa16">
+          <Name>Second Fatigue Strength Coefficient, C</Name>
+          <Unitless />
+        </ParameterDetails>
+        <ParameterDetails id="pa17">
+          <Name>Second Fatigue Strength Exponent, r</Name>
+          <Unitless />
+        </ParameterDetails>
+        <ParameterDetails id="pa18">
+          <Name>Stress</Name>
+          <Units name="Stress">
+            <Unit>
+              <Name>Pa</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
+        <ParameterDetails id="pa19">
+          <Name>Plastic Strain</Name>
+          <Units name="Strain">
+            <Unit>
+              <Name>mm</Name>
+            </Unit>
+            <Unit power="-1">
+              <Name>mm</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
         <ParameterDetails id="pa2">
           <Name>Blue</Name>
           <Unitless />
         </ParameterDetails>
         <ParameterDetails id="pa3">
-          <Name>Material_Property</Name>
+          <Name>Material Property</Name>
           <Unitless />
         </ParameterDetails>
         <ParameterDetails id="pa4">
@@ -294,6 +393,14 @@
         <PropertyDetails id="pr4">
           <Unitless />
           <Name>Material Dependent Damping</Name>
+        </PropertyDetails>
+        <PropertyDetails id="pr5">
+          <Unitless />
+          <Name>S-N Curve</Name>
+        </PropertyDetails>
+        <PropertyDetails id="pr6">
+          <Unitless />
+          <Name>Isotropic Hardening</Name>
         </PropertyDetails>
       </Metadata>
     </MatML_Doc>

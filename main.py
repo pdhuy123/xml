@@ -1,8 +1,11 @@
 import pandas as pd
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from openpyxl import load_workbook
+from openpyxl.styles.colors import COLOR_INDEX
+from openpyxl.utils import get_column_letter
 
-def convert_unit(value, unit):
+def convert(value, unit):
     if pd.isna(value):
         return value
     try:
@@ -21,10 +24,32 @@ def convert_unit(value, unit):
         return value
     except:
         return value
+    
+def convert_unit(values, unit):
+    lst = []
+    for value in str(values).split(","):
+        lst.append(str(convert(value, unit)))
+    return ",".join(lst)
 
 def excel_to_ansys_fixed(input_file, output_file):
     df = pd.read_excel(input_file)
 
+    # RGB color extraction
+    df = pd.read_excel(r"D:\clf\xml\xml.xlsx")
+    wb = load_workbook(r"D:\clf\xml\xml.xlsx", data_only=True)
+    ws = wb.active
+    colors = []
+    for row in range(2, ws.max_row + 1): 
+        cell = ws[f"B{row}"]
+        fill = cell.fill
+        if fill and fill.fgColor and fill.fgColor.type == "rgb":
+            rgb = fill.fgColor.rgb 
+            colors.append((int(rgb[2:4], 16), int(rgb[4:6], 16), int(rgb[6:8], 16)))
+        else:
+            colors.append(None)
+    df['RGB'] = colors
+    df[['Red', 'Green', 'Blue']] = pd.DataFrame(df['RGB'].tolist(), index=df.index)
+    # XML generation
     pa_set = set()
     pr_set = set()
     eng = ET.Element('EngineeringData', version="23.2.0.230",
@@ -39,15 +64,17 @@ def excel_to_ansys_fixed(input_file, output_file):
         ET.SubElement(bulk, 'Name').text = str(df.get('Name')[idx])
 
         # pr0: Color
-        if any(pd.notna(row.get(c)) for c in ["Red", "Green", "Blue", "Material_Property"]):
+        if any(pd.notna(row.get(c)) for c in ['Red', 'Green', 'Blue']):
             pr0 = ET.SubElement(bulk, 'PropertyData', property="pr0")
             ET.SubElement(pr0, 'Data', format='string').text = '-'
-            for pid, col in zip(["pa0", "pa1", "pa2", "pa3"], ["Red", "Green", "Blue", "Material_Property"]):
+            for pid, col in zip(["pa0", "pa1", "pa2"], ['Red', 'Green', 'Blue']):
                 val = row.get(col)
                 fmt = 'string' if isinstance(val, str) else 'float'
                 pv = ET.SubElement(pr0, 'ParameterValue', parameter=pid, format=fmt)
                 ET.SubElement(pv, 'Data').text = str(val)
-                ET.SubElement(pv, 'Qualifier', name='Variable Type').text = 'Dependent'
+                ET.SubElement(pv, 'Qualifier', name='Variable Type').text = 'Dependent' 
+            pa3 = ET.SubElement(pr0, 'ParameterValue', parameter='pa3', format='string')
+            ET.SubElement(pa3, 'Data').text = 'Appearance'
             pa_set.update(('pa0', 'pa1', 'pa2', 'pa3'))
             pr_set.add('pr0')
 
@@ -142,12 +169,38 @@ def excel_to_ansys_fixed(input_file, output_file):
             pa_set.update(('pa12', 'pa13'))
             pr_set.add('pr4')
 
+        # pr5: SN
+        if pd.notna(row.get(k) for k in ['A', 'm', 'C', 'r']):
+            pr5 = ET.SubElement(bulk, 'PropertyData', property="pr5")
+            ET.SubElement(pr5, 'Data', format='string').text = '-'
+            ET.SubElement(pr5, 'Qualifier', name='Definition').text = 'Bilinear'
+            ET.SubElement(pr5, 'Qualifier', name='Derive from').text = 'Coefficients and Exponents'
+            for pid, col in zip(['pa14', 'pa15', 'pa16', 'pa17'], ['A', 'm', 'C', 'r']):
+                pa14_17 = ET.SubElement(pr5, 'ParameterValue', parameter=pid, format='float')
+                ET.SubElement(pa14_17, 'Data').text = str(row.get(col))
+                ET.SubElement(pa14_17, 'Qualifier', name='Variable Type').text = 'Dependent'
+            pa_set.update(('pa14', 'pa15', 'pa16', 'pa17'))
+            pr_set.add('pr5')
+
+        # pr6: SS
+        if pd.notna(row.get(k) for k in ['Stress', 'Plastic_Strain']):
+            pr6 = ET.SubElement(bulk, 'PropertyData', property="pr6")
+            ET.SubElement(pr6, 'Data', format='string').text = '-'
+            ET.SubElement(pr6, 'Qualifier', name='Definition').text = 'Multilinear'
+            for pid, col, ucol in zip(["pa18", "pa19"], ["Stress", "Plastic_Strain"], ["Stress_units", None]):
+                val = convert_unit(row.get(col), row.get(ucol) if ucol else None)
+                pa_18_19 = ET.SubElement(pr6, 'ParameterValue', parameter=pid, format='float')
+                ET.SubElement(pa_18_19, 'Data').text = str(val)
+                ET.SubElement(pa_18_19, 'Qualifier', name='Variable Type').text = 'Dependent' if col == "pa18" else 'Independent'
+            pa_set.update(('pa18', 'pa19'))
+            pr_set.add('pr6')
+
     metadata = ET.SubElement(matml, 'Metadata')
     pa_info = {
         "pa0": ("Red", "Unitless"),
         "pa1": ("Green", "Unitless"),
         "pa2": ("Blue", "Unitless"),
-        "pa3": ("Material_Property", "Unitless"),
+        "pa3": ("Material Property", "Unitless"),
         "pa4": ("Options Variable", "Unitless"),
         "pa5": ("Density", "g/cm^3"),
         "pa6": ("Temperature", "C"),
@@ -157,13 +210,20 @@ def excel_to_ansys_fixed(input_file, output_file):
         "pa10": ("Shear Modulus", "Pa"),
         "pa11": ("Coefficient of Thermal Expansion", "1/C"),
         "pa12": ("Damping Ratio", "Unitless"),
-        "pa13": ("Constant Structural Damping Coefficient", "Unitless")
+        "pa13": ("Constant Structural Damping Coefficient", "Unitless"),
+        "pa14": ("First Fatigue Strength Coefficient, A", "Unitless"),
+        "pa15": ("First Fatigue Strength Exponent, m", "Unitless"),
+        "pa16": ("Second Fatigue Strength Coefficient, C", "Unitless"),
+        "pa17": ("Second Fatigue Strength Exponent, r", "Unitless"),
+        "pa18": ("Stress", "Pa"),
+        "pa19": ("Plastic Strain", "mm")
     }
     unit_groups = {
         "g/cm^3": ("Density", [("g", 1), ("cm", -3)]),
         "Pa": ("Stress", [("Pa", 1)]),
         "1/C": ("InvTemp1", [("C", -1)]),
         "C": ("Temperature", [("C", 1)]),
+        "mm": ("Strain", [("mm", 1), ("mm", -1)]),
         "Unitless": (None, [])
     }
 
@@ -188,7 +248,9 @@ def excel_to_ansys_fixed(input_file, output_file):
         "pr1": "Density",
         "pr2": "Elasticity",
         "pr3": "Coefficient of Thermal Expansion",
-        "pr4": "Material Dependent Damping"
+        "pr4": "Material Dependent Damping",
+        "pr5": "S-N Curve",
+        "pr6": "Isotropic Hardening"
     }
     for pr in sorted(pr_set):
         name = pr_info.get(pr, pr)
