@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<EngineeringData version="23.2.0.230" versiondate="06/12/2025 11:57:29 AM">
+<EngineeringData version="23.2.0.230" versiondate="06/13/2025 02:36:03 PM">
   <Notes />
   <Materials>
     <MatML_Doc>
@@ -9,15 +9,15 @@
           <PropertyData property="pr0">
             <Data format="string">-</Data>
             <ParameterValue parameter="pa0" format="float">
-              <Data>255</Data>
+              <Data>204</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa1" format="float">
-              <Data>102</Data>
+              <Data>236</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa2" format="float">
-              <Data>204</Data>
+              <Data>255</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa3" format="string">
@@ -50,22 +50,49 @@
           </PropertyData>
           <PropertyData property="pr2">
             <Data format="string">-</Data>
-            <Qualifier name="Behavior">Isotropic</Qualifier>
-            <Qualifier name="Derive from">Young's Modulus and Poisson's Ratio</Qualifier>
+            <Qualifier name="Behavior">Orthotropic</Qualifier>
             <Qualifier name="Field Variable Compatible">Temperature</Qualifier>
             <ParameterValue parameter="pa4" format="string">
               <Data>Interpolation Options</Data>
-              <Qualifier name="AlgorithmType">Linear Multivariate</Qualifier>
+              <Qualifier name="AlgorithmType">Linear Multivariate (Qhull)</Qualifier>
               <Qualifier name="Normalized">True</Qualifier>
               <Qualifier name="Cached">True</Qualifier>
               <Qualifier name="ExtrapolationType">Projection to the Bounding Box</Qualifier>
             </ParameterValue>
-            <ParameterValue parameter="pa7" format="float">
-              <Data>3000000.0</Data>
+            <ParameterValue parameter="pa23" format="float">
+              <Data>20900000000.0</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
-            <ParameterValue parameter="pa8" format="float">
-              <Data>0.32</Data>
+            <ParameterValue parameter="pa24" format="float">
+              <Data>19800000000.0</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa25" format="float">
+              <Data>19800000000.0</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa26" format="float">
+              <Data>0.2</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa27" format="float">
+              <Data>0.2</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa28" format="float">
+              <Data>0.2</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa29" format="float">
+              <Data>8250000000.0</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa30" format="float">
+              <Data>8250000000.0</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa31" format="float">
+              <Data>8700000000.0</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa6" format="float">
@@ -81,9 +108,17 @@
           <PropertyData property="pr3">
             <Data format="string">-</Data>
             <Qualifier name="Definition">Instantaneous</Qualifier>
-            <Qualifier name="Behavior">Isotropic</Qualifier>
-            <ParameterValue parameter="pa11" format="float">
-              <Data>1.9e-05</Data>
+            <Qualifier name="Behavior">Orthotropic</Qualifier>
+            <ParameterValue parameter="pa20" format="float">
+              <Data>1.1e-05</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa21" format="float">
+              <Data>1.3e-05</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa22" format="float">
+              <Data>4e-05</Data>
               <Qualifier name="Variable Type">Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa6" format="float">
@@ -128,10 +163,14 @@
             <Qualifier name="Definition">Multilinear</Qualifier>
             <ParameterValue parameter="pa18" format="float">
               <Data>200000000.0,400000000.0</Data>
-              <Qualifier name="Variable Type">Independent</Qualifier>
+              <Qualifier name="Variable Type">Independent,Independent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa19" format="float">
               <Data>0.0,0.2</Data>
+              <Qualifier name="Variable Type">Independent,Independent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa6" format="float">
+              <Data>7.88860905221012e-31</Data>
               <Qualifier name="Variable Type">Independent</Qualifier>
             </ParameterValue>
           </PropertyData>
@@ -170,13 +209,13 @@
             </ParameterValue>
             <ParameterValue parameter="pa5" format="float">
               <Data>0.0089,0.009</Data>
-              <Qualifier name="Variable Type">Dependent</Qualifier>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa6" format="float">
-              <Data>25,30</Data>
-              <Qualifier name="Variable Type">Independent</Qualifier>
+              <Data>25, 30</Data>
+              <Qualifier name="Variable Type">Independent,Independent</Qualifier>
               <Qualifier name="Field Variable">Temperature</Qualifier>
-              <Qualifier name="Default Data">25,30</Qualifier>
+              <Qualifier name="Default Data">22</Qualifier>
               <Qualifier name="Field Units">C</Qualifier>
               <Qualifier name="Upper Limit">Program Controlled</Qualifier>
               <Qualifier name="Lower Limit">Program Controlled</Qualifier>
@@ -184,29 +223,56 @@
           </PropertyData>
           <PropertyData property="pr2">
             <Data format="string">-</Data>
-            <Qualifier name="Behavior">Isotropic</Qualifier>
-            <Qualifier name="Derive from">Young's Modulus and Poisson's Ratio</Qualifier>
+            <Qualifier name="Behavior">Orthotropic</Qualifier>
             <Qualifier name="Field Variable Compatible">Temperature</Qualifier>
             <ParameterValue parameter="pa4" format="string">
               <Data>Interpolation Options</Data>
-              <Qualifier name="AlgorithmType">Linear Multivariate</Qualifier>
+              <Qualifier name="AlgorithmType">Linear Multivariate (Qhull)</Qualifier>
               <Qualifier name="Normalized">True</Qualifier>
               <Qualifier name="Cached">True</Qualifier>
               <Qualifier name="ExtrapolationType">Projection to the Bounding Box</Qualifier>
             </ParameterValue>
-            <ParameterValue parameter="pa7" format="float">
-              <Data>117000000.0</Data>
-              <Qualifier name="Variable Type">Dependent</Qualifier>
+            <ParameterValue parameter="pa23" format="float">
+              <Data>30900000000.0,30900000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
             </ParameterValue>
-            <ParameterValue parameter="pa8" format="float">
-              <Data>0.37,0.38</Data>
-              <Qualifier name="Variable Type">Dependent</Qualifier>
+            <ParameterValue parameter="pa24" format="float">
+              <Data>20000000000.0,20000000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa25" format="float">
+              <Data>20800000000.0,20800000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa26" format="float">
+              <Data>0.5,0.6</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa27" format="float">
+              <Data>0.5,0.6</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa28" format="float">
+              <Data>0.5,0.6</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa29" format="float">
+              <Data>9250000000.0,9250000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa30" format="float">
+              <Data>8750000000.0,8750000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa31" format="float">
+              <Data>8100000000.0,8100000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa6" format="float">
-              <Data>25,30</Data>
-              <Qualifier name="Variable Type">Independent</Qualifier>
+              <Data>25, 30</Data>
+              <Qualifier name="Variable Type">Independent,Independent</Qualifier>
               <Qualifier name="Field Variable">Temperature</Qualifier>
-              <Qualifier name="Default Data">25,30</Qualifier>
+              <Qualifier name="Default Data">22</Qualifier>
               <Qualifier name="Field Units">C</Qualifier>
               <Qualifier name="Upper Limit">Program Controlled</Qualifier>
               <Qualifier name="Lower Limit">Program Controlled</Qualifier>
@@ -215,14 +281,22 @@
           <PropertyData property="pr3">
             <Data format="string">-</Data>
             <Qualifier name="Definition">Instantaneous</Qualifier>
-            <Qualifier name="Behavior">Isotropic</Qualifier>
-            <ParameterValue parameter="pa11" format="float">
-              <Data>3.8e-05,3.9e-05</Data>
-              <Qualifier name="Variable Type">Dependent</Qualifier>
+            <Qualifier name="Behavior">Orthotropic</Qualifier>
+            <ParameterValue parameter="pa20" format="float">
+              <Data>1.3e-05,1.3e-05</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa21" format="float">
+              <Data>1.5e-05,1.5e-05</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa22" format="float">
+              <Data>8e-05,9e-05</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa6" format="float">
-              <Data>25,30</Data>
-              <Qualifier name="Variable Type">Independent</Qualifier>
+              <Data>25, 30</Data>
+              <Qualifier name="Variable Type">Independent,Independent</Qualifier>
             </ParameterValue>
           </PropertyData>
           <PropertyData property="pr4">
@@ -262,11 +336,116 @@
             <Qualifier name="Definition">Multilinear</Qualifier>
             <ParameterValue parameter="pa18" format="float">
               <Data>256000000000.0,275000000000.0,290000000000.0</Data>
-              <Qualifier name="Variable Type">Independent</Qualifier>
+              <Qualifier name="Variable Type">Independent,Independent,Independent</Qualifier>
             </ParameterValue>
             <ParameterValue parameter="pa19" format="float">
               <Data>0.0,0.01,0.03</Data>
-              <Qualifier name="Variable Type">Independent</Qualifier>
+              <Qualifier name="Variable Type">Independent,Independent,Independent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa6" format="float">
+              <Data>7.88860905221012e-31</Data>
+              <Qualifier name="Variable Type">Independent,Independent</Qualifier>
+            </ParameterValue>
+          </PropertyData>
+        </BulkDetails>
+      </Material>
+      <Material>
+        <BulkDetails>
+          <Name>C</Name>
+          <PropertyData property="pr0">
+            <Data format="string">-</Data>
+            <ParameterValue parameter="pa0" format="float">
+              <Data>192</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa1" format="float">
+              <Data>64</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa2" format="float">
+              <Data>122</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa3" format="string">
+              <Data>Appearance</Data>
+            </ParameterValue>
+          </PropertyData>
+          <PropertyData property="pr2">
+            <Data format="string">-</Data>
+            <Qualifier name="Behavior">Orthotropic</Qualifier>
+            <Qualifier name="Field Variable Compatible">Temperature</Qualifier>
+            <ParameterValue parameter="pa4" format="string">
+              <Data>Interpolation Options</Data>
+              <Qualifier name="AlgorithmType">Linear Multivariate (Qhull)</Qualifier>
+              <Qualifier name="Normalized">True</Qualifier>
+              <Qualifier name="Cached">True</Qualifier>
+              <Qualifier name="ExtrapolationType">Projection to the Bounding Box</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa23" format="float">
+              <Data>20900000000.0,20900000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa24" format="float">
+              <Data>19800000000.0,19800000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa25" format="float">
+              <Data>19800000000.0,19800000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa26" format="float">
+              <Data>0.2,0.2</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa27" format="float">
+              <Data>0.2,0.2</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa28" format="float">
+              <Data>0.2,0.2</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa29" format="float">
+              <Data>8250000000.0,8250000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa30" format="float">
+              <Data>8250000000.0,8250000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa31" format="float">
+              <Data>8708000000.0,8708000000.0</Data>
+              <Qualifier name="Variable Type">Dependent,Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa6" format="float">
+              <Data>10, 20</Data>
+              <Qualifier name="Variable Type">Independent,Independent</Qualifier>
+              <Qualifier name="Field Variable">Temperature</Qualifier>
+              <Qualifier name="Default Data">22</Qualifier>
+              <Qualifier name="Field Units">C</Qualifier>
+              <Qualifier name="Upper Limit">Program Controlled</Qualifier>
+              <Qualifier name="Lower Limit">Program Controlled</Qualifier>
+            </ParameterValue>
+          </PropertyData>
+          <PropertyData property="pr3">
+            <Data format="string">-</Data>
+            <Qualifier name="Definition">Instantaneous</Qualifier>
+            <Qualifier name="Behavior">Orthotropic</Qualifier>
+            <ParameterValue parameter="pa20" format="float">
+              <Data>1.1e-05</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa21" format="float">
+              <Data>1.3e-05</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa22" format="float">
+              <Data>4e-05</Data>
+              <Qualifier name="Variable Type">Dependent</Qualifier>
+            </ParameterValue>
+            <ParameterValue parameter="pa6" format="float">
+              <Data>10, 20</Data>
+              <Qualifier name="Variable Type">Independent,Independent</Qualifier>
             </ParameterValue>
           </PropertyData>
         </BulkDetails>
@@ -279,14 +458,6 @@
         <ParameterDetails id="pa1">
           <Name>Green</Name>
           <Unitless />
-        </ParameterDetails>
-        <ParameterDetails id="pa11">
-          <Name>Coefficient of Thermal Expansion</Name>
-          <Units name="InvTemp1">
-            <Unit power="-1">
-              <Name>C</Name>
-            </Unit>
-          </Units>
         </ParameterDetails>
         <ParameterDetails id="pa12">
           <Name>Damping Ratio</Name>
@@ -335,9 +506,93 @@
           <Name>Blue</Name>
           <Unitless />
         </ParameterDetails>
+        <ParameterDetails id="pa20">
+          <Name>Coefficient of Thermal Expansion X direction</Name>
+          <Units name="InvTemp1">
+            <Unit power="-1">
+              <Name>C</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
+        <ParameterDetails id="pa21">
+          <Name>Coefficient of Thermal Expansion Y direction</Name>
+          <Units name="InvTemp1">
+            <Unit power="-1">
+              <Name>C</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
+        <ParameterDetails id="pa22">
+          <Name>Coefficient of Thermal Expansion Z direction</Name>
+          <Units name="InvTemp1">
+            <Unit power="-1">
+              <Name>C</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
+        <ParameterDetails id="pa23">
+          <Name>Young's Modulus X direction</Name>
+          <Units name="Stress">
+            <Unit>
+              <Name>Pa</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
+        <ParameterDetails id="pa24">
+          <Name>Young's Modulus Y direction</Name>
+          <Units name="Stress">
+            <Unit>
+              <Name>Pa</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
+        <ParameterDetails id="pa25">
+          <Name>Young's Modulus Z direction</Name>
+          <Units name="Stress">
+            <Unit>
+              <Name>Pa</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
+        <ParameterDetails id="pa26">
+          <Name>Poisson's Ratio XY</Name>
+          <Unitless />
+        </ParameterDetails>
+        <ParameterDetails id="pa27">
+          <Name>Poisson's Ratio YZ</Name>
+          <Unitless />
+        </ParameterDetails>
+        <ParameterDetails id="pa28">
+          <Name>Poisson's Ratio XZ</Name>
+          <Unitless />
+        </ParameterDetails>
+        <ParameterDetails id="pa29">
+          <Name>Shear Modulus XY</Name>
+          <Units name="Stress">
+            <Unit>
+              <Name>Pa</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
         <ParameterDetails id="pa3">
           <Name>Material Property</Name>
           <Unitless />
+        </ParameterDetails>
+        <ParameterDetails id="pa30">
+          <Name>Shear Modulus YZ</Name>
+          <Units name="Stress">
+            <Unit>
+              <Name>Pa</Name>
+            </Unit>
+          </Units>
+        </ParameterDetails>
+        <ParameterDetails id="pa31">
+          <Name>Shear Modulus XZ</Name>
+          <Units name="Stress">
+            <Unit>
+              <Name>Pa</Name>
+            </Unit>
+          </Units>
         </ParameterDetails>
         <ParameterDetails id="pa4">
           <Name>Options Variable</Name>
@@ -361,18 +616,6 @@
               <Name>C</Name>
             </Unit>
           </Units>
-        </ParameterDetails>
-        <ParameterDetails id="pa7">
-          <Name>Young's Modulus</Name>
-          <Units name="Stress">
-            <Unit>
-              <Name>Pa</Name>
-            </Unit>
-          </Units>
-        </ParameterDetails>
-        <ParameterDetails id="pa8">
-          <Name>Poisson's Ratio</Name>
-          <Unitless />
         </ParameterDetails>
         <PropertyDetails id="pr0">
           <Unitless />

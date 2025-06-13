@@ -5,6 +5,9 @@ from openpyxl import load_workbook
 from openpyxl.styles.colors import COLOR_INDEX
 from openpyxl.utils import get_column_letter
 
+Dep = ["Dependent"]
+Indep = ["Independent"]
+
 def convert(value, unit):
     if pd.isna(value):
         return value
@@ -29,7 +32,7 @@ def convert_unit(values, unit):
     lst = []
     for value in str(values).split(","):
         lst.append(str(convert(value, unit)))
-    return ",".join(lst)
+    return ",".join(lst), len(lst)
 
 def excel_to_ansys_fixed(input_file, output_file):
     df = pd.read_excel(input_file)
@@ -90,26 +93,68 @@ def excel_to_ansys_fixed(input_file, output_file):
             ET.SubElement(pa4, 'Qualifier', name='Cached').text = 'True'
             ET.SubElement(pa4, 'Qualifier', name='ExtrapolationType').text = 'Projection to the Bounding Box'
 
-            val = convert_unit(row.get("Density"), row.get("Density_units"))
+            val, count = convert_unit(row.get("Density"), row.get("Density_units"))
             pa5 = ET.SubElement(pr1, 'ParameterValue', parameter='pa5', format='float')
             ET.SubElement(pa5, 'Data').text = str(val)
-            ET.SubElement(pa5, 'Qualifier', name='Variable Type').text = 'Dependent'
+            ET.SubElement(pa5, 'Qualifier', name='Variable Type').text = ",".join(Dep*count)
             pa_set.update(('pa4', 'pa5'))
 
             temp_val = row.get('Temperature')
             temp_unit = row.get('Temperature_units') or 'C'
+            count = len(str(temp_val).split(','))
             pa6 = ET.SubElement(pr1, 'ParameterValue', parameter='pa6', format='float')
             ET.SubElement(pa6, 'Data').text = str(temp_val if pd.notna(temp_val) else '7.88860905221012e-31')
-            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = 'Independent'
+            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = ",".join(Indep*count)
             ET.SubElement(pa6, 'Qualifier', name='Field Variable').text = 'Temperature'
-            ET.SubElement(pa6, 'Qualifier', name='Default Data').text = str(temp_val if pd.notna(temp_val) else '22')
+            ET.SubElement(pa6, 'Qualifier', name='Default Data').text = '22'
             ET.SubElement(pa6, 'Qualifier', name='Field Units').text = temp_unit
             ET.SubElement(pa6, 'Qualifier', name='Upper Limit').text = 'Program Controlled'
             ET.SubElement(pa6, 'Qualifier', name='Lower Limit').text = 'Program Controlled'
             pa_set.add('pa6')
             pr_set.add('pr1')
 
-        # pr2
+        # pr2: Elasticity
+        if any(pd.notna(row.get(k)) for k in ["Youngs_Modulus_X", "Poissons_Ratio_XY", "Shear_Modulus_XY"]):
+            pr2 = ET.SubElement(bulk, 'PropertyData', property="pr2")
+            ET.SubElement(pr2, 'Data', format='string').text = '-'
+            ET.SubElement(pr2, 'Qualifier', name='Behavior').text = 'Orthotropic'
+            ET.SubElement(pr2, 'Qualifier', name='Field Variable Compatible').text = 'Temperature'
+            # pa4
+            pa4 = ET.SubElement(pr2, 'ParameterValue', parameter='pa4', format='string')
+            ET.SubElement(pa4, 'Data').text = 'Interpolation Options'
+            ET.SubElement(pa4, 'Qualifier', name='AlgorithmType').text = 'Linear Multivariate (Qhull)'
+            ET.SubElement(pa4, 'Qualifier', name='Normalized').text = 'True'
+            ET.SubElement(pa4, 'Qualifier', name='Cached').text = 'True'
+            ET.SubElement(pa4, 'Qualifier', name='ExtrapolationType').text = 'Projection to the Bounding Box'
+            pa_set.add('pa4')
+            # pa23_31
+            for pid, col, ucol in zip(
+                ["pa23", "pa24", "pa25", "pa26", "pa27", "pa28", "pa29", "pa30", "pa31"], 
+                ["Youngs_Modulus_X", "Youngs_Modulus_Y", "Youngs_Modulus_Z",
+                    "Poissons_Ratio_XY", "Poissons_Ratio_YZ", "Poissons_Ratio_XZ",
+                    "Shear_Modulus_XY", "Shear_Modulus_YZ", "Shear_Modulus_XZ"], 
+                    ["Youngs_Modulus_units", "Youngs_Modulus_units", "Youngs_Modulus_units",
+                 None, None, None, "Shear_Modulus_Unit", "Shear_Modulus_Unit", "Shear_Modulus_Unit"]):
+                val, count = convert_unit(row.get(col), row.get(ucol) if ucol else None)
+                param = ET.SubElement(pr2, 'ParameterValue', parameter=pid, format='float')
+                ET.SubElement(param, 'Data').text = str(val)
+                ET.SubElement(param, 'Qualifier', name='Variable Type').text = ",".join(Dep*count)
+            pa_set.update(('pa23', 'pa24', 'pa25', 'pa26', 'pa27', 'pa28', 'pa29', 'pa30', 'pa31'))
+            # pa6
+            pa6 = ET.SubElement(pr2, 'ParameterValue', parameter='pa6', format='float')
+            temp_val = row.get('Temperature')
+            count = len(str(temp_val).split(','))
+            ET.SubElement(pa6, 'Data').text = str(temp_val if pd.notna(temp_val) else '7.88860905221012e-31')
+            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = ",".join(Indep*count)
+            ET.SubElement(pa6, 'Qualifier', name='Field Variable').text = 'Temperature'
+            ET.SubElement(pa6, 'Qualifier', name='Default Data').text = '22'
+            ET.SubElement(pa6, 'Qualifier', name='Field Units').text = row.get('Temperature_units') or 'C'
+            ET.SubElement(pa6, 'Qualifier', name='Upper Limit').text = 'Program Controlled'
+            ET.SubElement(pa6, 'Qualifier', name='Lower Limit').text = 'Program Controlled'
+            pa_set.add('pa6')
+            pr_set.add('pr2')
+
+
         if any(pd.notna(row.get(k)) for k in ["Youngs_Modulus", "Poissons_Ratio"]):
             pr2 = ET.SubElement(bulk, 'PropertyData', property="pr2")
             ET.SubElement(pr2, 'Data', format='string').text = '-'
@@ -124,17 +169,18 @@ def excel_to_ansys_fixed(input_file, output_file):
             ET.SubElement(pa4, 'Qualifier', name='ExtrapolationType').text = 'Projection to the Bounding Box'
 
             for pid, col, ucol in zip(["pa7", "pa8"], ["Youngs_Modulus", "Poissons_Ratio"], ["Youngs_Modulus_units", None]):
-                val = convert_unit(row.get(col), row.get(ucol) if ucol else None)
+                val, count = convert_unit(row.get(col), row.get(ucol) if ucol else None)
                 param = ET.SubElement(pr2, 'ParameterValue', parameter=pid, format='float')
                 ET.SubElement(param, 'Data').text = str(val)
-                ET.SubElement(param, 'Qualifier', name='Variable Type').text = 'Dependent'
+                ET.SubElement(param, 'Qualifier', name='Variable Type').text = ",".join(Dep*count)
 
             pa6 = ET.SubElement(pr2, 'ParameterValue', parameter='pa6', format='float')
             temp_val = row.get('Temperature')
+            count = len(str(temp_val).split(','))
             ET.SubElement(pa6, 'Data').text = str(temp_val if pd.notna(temp_val) else '7.88860905221012e-31')
-            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = 'Independent'
+            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = ",".join(Indep*count)
             ET.SubElement(pa6, 'Qualifier', name='Field Variable').text = 'Temperature'
-            ET.SubElement(pa6, 'Qualifier', name='Default Data').text = str(temp_val if pd.notna(temp_val) else '22')
+            ET.SubElement(pa6, 'Qualifier', name='Default Data').text = '22'
             ET.SubElement(pa6, 'Qualifier', name='Field Units').text = row.get('Temperature_units') or 'C'
             ET.SubElement(pa6, 'Qualifier', name='Upper Limit').text = 'Program Controlled'
             ET.SubElement(pa6, 'Qualifier', name='Lower Limit').text = 'Program Controlled'
@@ -142,19 +188,44 @@ def excel_to_ansys_fixed(input_file, output_file):
             pr_set.add('pr2')
 
         # pr3: CTE
+        if any(pd.notna(row.get(k)) for k in ['CTE_X', 'CTE_Y', 'CTE_Z']):
+            pr3 = ET.SubElement(bulk, 'PropertyData', property="pr3")
+            ET.SubElement(pr3, 'Data', format='string').text = '-'
+            ET.SubElement(pr3, 'Qualifier', name='Definition').text = 'Instantaneous'
+            ET.SubElement(pr3, 'Qualifier', name='Behavior').text = 'Orthotropic'
+            # pa20_22
+            for pid, col, ucol in zip(
+                ["pa20", "pa21", "pa22"], 
+                ["CTE_X", "CTE_Y", "CTE_Z"], 
+                ["CTE_units", "CTE_units", "CTE_units"]):
+                val, count = convert_unit(row.get(col), row.get(ucol) if ucol else None)
+                param = ET.SubElement(pr3, 'ParameterValue', parameter=pid, format='float')
+                ET.SubElement(param, 'Data').text = str(val)
+                ET.SubElement(param, 'Qualifier', name='Variable Type').text = ",".join(Dep*count)
+            pa_set.update(('pa20', 'pa21', 'pa22'))
+            # pa6
+            pa6 = ET.SubElement(pr3, 'ParameterValue', parameter='pa6', format='float')
+            temp_val = row.get('Temperature')
+            count = len(str(temp_val).split(','))
+            ET.SubElement(pa6, 'Data').text = str(temp_val if pd.notna(temp_val) else '7.88860905221012e-31')
+            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = ",".join(Indep*count)
+            pa_set.add('pa6')
+            pr_set.add('pr3')
+
         if pd.notna(row.get("CTE")):
             pr3 = ET.SubElement(bulk, 'PropertyData', property="pr3")
             ET.SubElement(pr3, 'Data', format='string').text = '-'
             ET.SubElement(pr3, 'Qualifier', name='Definition').text = 'Instantaneous'
             ET.SubElement(pr3, 'Qualifier', name='Behavior').text = 'Isotropic'
-            val = convert_unit(row.get("CTE"), row.get("CTE_units"))
+            val, count = convert_unit(row.get("CTE"), row.get("CTE_units"))
             pa11 = ET.SubElement(pr3, 'ParameterValue', parameter='pa11', format='float')
             ET.SubElement(pa11, 'Data').text = str(val)
-            ET.SubElement(pa11, 'Qualifier', name='Variable Type').text = 'Dependent'
+            ET.SubElement(pa11, 'Qualifier', name='Variable Type').text = ",".join(Dep*count)
             pa6 = ET.SubElement(pr3, 'ParameterValue', parameter='pa6', format='float')
             temp_val = row.get('Temperature')
+            count = len(str(temp_val).split(','))
             ET.SubElement(pa6, 'Data').text = str(temp_val if pd.notna(temp_val) else '7.88860905221012e-31')
-            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = 'Independent'
+            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = ",".join(Indep*count)
             pa_set.update(('pa6', 'pa11'))
             pr_set.add('pr3')
 
@@ -163,39 +234,42 @@ def excel_to_ansys_fixed(input_file, output_file):
             pr4 = ET.SubElement(bulk, 'PropertyData', property='pr4')
             ET.SubElement(pr4, 'Data', format='string').text = '-'
             for pid, col in zip(["pa12", "pa13"], ["Damping_Ratio", "CSDC"]):
+                count = len(str(row.get(col)).split(','))
                 pa12_13 = ET.SubElement(pr4, 'ParameterValue', parameter=pid, format='float')
                 ET.SubElement(pa12_13, 'Data').text = str(row.get(col)) if pd.notna(row.get(col)) else '7.88860905221012e-31'
-                ET.SubElement(pa12_13, 'Qualifier', name='Variable Type').text = 'Dependent'
+                ET.SubElement(pa12_13, 'Qualifier', name='Variable Type').text = ",".join(Dep*count)
             pa_set.update(('pa12', 'pa13'))
             pr_set.add('pr4')
 
         # pr5: SN
-        if pd.notna(row.get(k) for k in ['A', 'm', 'C', 'r']):
+        if any(pd.notna(row.get(k for k in ['A', 'm', 'C', 'r']))):  
             pr5 = ET.SubElement(bulk, 'PropertyData', property="pr5")
             ET.SubElement(pr5, 'Data', format='string').text = '-'
             ET.SubElement(pr5, 'Qualifier', name='Definition').text = 'Bilinear'
             ET.SubElement(pr5, 'Qualifier', name='Derive from').text = 'Coefficients and Exponents'
             for pid, col in zip(['pa14', 'pa15', 'pa16', 'pa17'], ['A', 'm', 'C', 'r']):
+                count = len(str(row.get(col)).split(','))
                 pa14_17 = ET.SubElement(pr5, 'ParameterValue', parameter=pid, format='float')
                 ET.SubElement(pa14_17, 'Data').text = str(row.get(col))
-                ET.SubElement(pa14_17, 'Qualifier', name='Variable Type').text = 'Dependent'
+                ET.SubElement(pa14_17, 'Qualifier', name='Variable Type').text = ",".join(Dep*count)
             pa_set.update(('pa14', 'pa15', 'pa16', 'pa17'))
             pr_set.add('pr5')
 
         # pr6: SS
-        if pd.notna(row.get(k) for k in ['Stress', 'Plastic_Strain']):
+        if any(pd.notna(row.get(k for k in ['Stress', 'Plastic_Strain']))):
             pr6 = ET.SubElement(bulk, 'PropertyData', property="pr6")
             ET.SubElement(pr6, 'Data', format='string').text = '-'
             ET.SubElement(pr6, 'Qualifier', name='Definition').text = 'Multilinear'
             for pid, col, ucol in zip(["pa18", "pa19"], ["Stress", "Plastic_Strain"], ["Stress_units", None]):
-                val = convert_unit(row.get(col), row.get(ucol) if ucol else None)
+                val, count = convert_unit(row.get(col), row.get(ucol) if ucol else None)
                 pa_18_19 = ET.SubElement(pr6, 'ParameterValue', parameter=pid, format='float')
                 ET.SubElement(pa_18_19, 'Data').text = str(val)
-                ET.SubElement(pa_18_19, 'Qualifier', name='Variable Type').text = 'Dependent' if col == "pa18" else 'Independent'
+                ET.SubElement(pa_18_19, 'Qualifier', name='Variable Type').text = ",".join(Dep*count) if col == "pa18" else ",".join(Indep*count)
             pa6 = ET.SubElement(pr6, 'ParameterValue', parameter='pa6', format='float')
             temp_val = row.get('Temperature')
+            count = len(str(temp_val).split(','))
             ET.SubElement(pa6, 'Data').text = '7.88860905221012e-31' 
-            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = 'Independent'
+            ET.SubElement(pa6, 'Qualifier', name='Variable Type').text = ",".join(Indep*count)
             pa_set.update(('pa18', 'pa19', 'pa6'))
             pr_set.add('pr6')
 
@@ -220,7 +294,19 @@ def excel_to_ansys_fixed(input_file, output_file):
         "pa16": ("Second Fatigue Strength Coefficient, C", "Unitless"),
         "pa17": ("Second Fatigue Strength Exponent, r", "Unitless"),
         "pa18": ("Stress", "Pa"),
-        "pa19": ("Plastic Strain", "mm")
+        "pa19": ("Plastic Strain", "mm"),
+        "pa20": ("Coefficient of Thermal Expansion X direction", "1/C"),
+        "pa21": ("Coefficient of Thermal Expansion Y direction", "1/C"),
+        "pa22": ("Coefficient of Thermal Expansion Z direction", "1/C"),
+        "pa23": ("Young's Modulus X direction", "Pa"),
+        "pa24": ("Young's Modulus Y direction", "Pa"),
+        "pa25": ("Young's Modulus Z direction", "Pa"),
+        "pa26": ("Poisson's Ratio XY", "Unitless"),
+        "pa27": ("Poisson's Ratio YZ", "Unitless"),
+        "pa28": ("Poisson's Ratio XZ", "Unitless"),
+        "pa29": ("Shear Modulus XY", "Pa"),
+        "pa30": ("Shear Modulus YZ", "Pa"),
+        "pa31": ("Shear Modulus XZ", "Pa")
     }
     unit_groups = {
         "g/cm^3": ("Density", [("g", 1), ("cm", -3)]),
